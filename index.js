@@ -1,11 +1,10 @@
-const express = require("express")
+const express = require('express')
 const app = express()
+const router = require('./api/routes/routes')
 const port = process.env.PORT || 3000
-const mongoose = require("mongoose")
-const User = require("./api/models/userModel") // 作成したModelの読み込み
+const mongoose = require('mongoose')
 
-mongoose.Promise = global.Promise
-mongoose.connect("mongodb://localhost/Tododb")
+mongoose.connect('mongodb://localhost:27017/Tododb')
 
 // bodyParserは非推奨になったので、この形で書く
 // 入力されたデータを文字列または配列として認識する
@@ -16,10 +15,7 @@ app.use(express.urlencoded({ extended: true }))
 // 受け取ったデータをJSONオブジェクトとして認識する
 // Content-Typeがapplication/jsonのデータを取得するためにはexpress.json()を追加する必要がある
 app.use(express.json())
+app.use('/api', router)
 
-const routes = require("./api/routes/userRoutes") // Routeのインポート
-routes(app) //appにRouteを設定する。
-
-app.listen(port) // appを特定のportでlistenさせる。
-
-console.log("todo list RESTful API server started on: " + port)
+app.listen(port)
+console.info('listen on port: ' + port)

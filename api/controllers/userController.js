@@ -1,8 +1,8 @@
-const mongoose = require('mongoose')
 const User = require('../models/user')
+
 module.exports = {
   // 全てのユーザーを取得する。
-  find_users : async (req, res) => {
+  find_users : async (_, res) => {
     const users = await User.find({}).catch(err => {
       res.send(err)
       console.error(err)
